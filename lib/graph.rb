@@ -8,16 +8,22 @@ class Vertex
 end
 
 class Edge
-  attr_reader :
+  attr_accessor :from_vertex, :to_vertex, :cost
   def initialize(from_vertex, to_vertex, cost = 1)
-    @from = from_vertex
-    @to = to_vertex
-    @weight = cost
+    @from_vertex = from_vertex
+    @to_vertex = to_vertex
+    @cost = cost
+    add_edges
+  end
+
+  def add_edges
+    @from_vertex.out_edges.push(self)
+    @to_vertex.in_edges.push(self)
   end
 
   def destroy!
-    @to.in_edges.delete(self)
-    @from.out_edges.delete(self)
-    @to, @from = nil, nil
+    @to_vertex.in_edges.delete(self)
+    @from_vertex.out_edges.delete(self)
+    @to_vertex, @from_vertex = nil, nil
   end
 end

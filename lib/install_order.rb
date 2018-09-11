@@ -7,8 +7,20 @@
 
 # Import any files you need to
 
-
+require 'graph.rb'
+require 'topological_sort'
 
 def install_order(arr)
+  vertices = []
+  max = 0
+  arr.each { |el| max = el[0] if el[0] > max }
+  1.upto(max) { |n| vertices << Vertex.new(n) }
+  arr.each do |el|
+    from = vertices[el[1] - 1]
+    to = vertices[el[0] - 1]
+    Edge.new(from, to)
+  end
+
+  topological_sort(vertices).map {|el| el.value}
 
 end
